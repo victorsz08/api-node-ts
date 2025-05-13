@@ -16,7 +16,11 @@ export type CreateUserOutputDto = void;
 
 
 export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUserOutputDto> {
-    private constructor(private readonly userInterface: UserInterface) {}
+    private constructor(private readonly userInterface: UserInterface) {};
+
+    public static build(userInterface: UserInterface) {
+        return new CreateUserUsecase(userInterface);
+    };
     
     public async execute(input: CreateUserInputDto): Promise<void> {
         const { username, firstName, lastName, password } = input;

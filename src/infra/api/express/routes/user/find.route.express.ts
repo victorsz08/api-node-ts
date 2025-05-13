@@ -4,6 +4,7 @@ import {
 } from "./../../../../../usecases/user/find.usecase";
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
+import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
 type T = any;
 
@@ -40,6 +41,8 @@ export class FindUserRoute implements Route {
     res: Response,
     next: NextFunction
   ) => Promise<void>)[] {
-    throw new Error("Method not implemented.");
+    return [
+      LoggerMiddleware()
+    ]
   }
 }

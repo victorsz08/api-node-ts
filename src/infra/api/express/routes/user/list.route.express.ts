@@ -4,6 +4,7 @@ import {
   ListUserInputDto,
   ListUserUsecase,
 } from "../../../../../usecases/user/list.usecase";
+import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
 type T = any;
 
@@ -40,6 +41,8 @@ export class ListUserRoute implements Route {
     res: Response,
     next: NextFunction
   ) => Promise<void>)[] {
-    throw new Error("Method not implemented.");
+    return [
+      LoggerMiddleware()
+    ]
   }
 }

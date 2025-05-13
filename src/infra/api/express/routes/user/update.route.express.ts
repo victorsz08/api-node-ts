@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
 import { UpdateUserUsecase } from "../../../../../usecases/user/update.usecase";
+import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
 export class UpdateUserRoute implements Route {
   private constructor(
@@ -41,6 +42,8 @@ export class UpdateUserRoute implements Route {
     res: Response,
     next: NextFunction
   ) => Promise<void>)[] {
-    throw new Error("Method not implemented.");
+    return [
+      LoggerMiddleware()
+    ]
   }
 }

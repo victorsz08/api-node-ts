@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
 import { DeleteUserUsecase } from "../../../../../usecases/user/delete.usecase";
+import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
 export class DeleteUserRoute implements Route {
   private constructor(
@@ -39,6 +40,8 @@ export class DeleteUserRoute implements Route {
     res: Response,
     next: NextFunction
   ) => Promise<void>)[] {
-    throw new Error("Method not implemented.");
+    return [
+      LoggerMiddleware()
+    ]
   }
 }

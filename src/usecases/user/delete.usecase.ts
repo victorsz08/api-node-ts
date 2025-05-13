@@ -15,6 +15,10 @@ export type DeleteUserOutputDto = void;
 
 export class DeleteUserUsecase implements Usecase<DeleteUserInputDto, DeleteUserOutputDto> {
     private constructor(private readonly userInterface: UserInterface) {};
+
+     public static build(userInterface: UserInterface) {
+        return new DeleteUserUsecase(userInterface);
+    };
     
     public async execute(input: DeleteUserInputDto): Promise<void> {
         const { id } = input;

@@ -18,6 +18,10 @@ export type UpdateUserOutputDto = void;
 
 export class UpdateUserUsecase implements Usecase<UpdateUserInputDto, UpdateUserOutputDto> {
     private constructor(private readonly userInterface: UserInterface) {};
+
+     public static build(userInterface: UserInterface) {
+        return new UpdateUserUsecase(userInterface);
+    };
     
     public async execute(input: UpdateUserInputDto): Promise<void> {
         const { id, username, firstName, lastName } = input;

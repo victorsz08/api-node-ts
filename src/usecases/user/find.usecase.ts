@@ -26,6 +26,10 @@ export type FindUserOutputDto = {
 
 export class FindUserUsecase implements Usecase<FindUserInputDto, FindUserOutputDto> {
     private constructor(private readonly userInterface: UserInterface) {};
+
+    public static build(userInterface: UserInterface) {
+        return new FindUserUsecase(userInterface);
+    };
     
     public async execute(input: FindUserInputDto): Promise<FindUserOutputDto> {
         const { id } = input;

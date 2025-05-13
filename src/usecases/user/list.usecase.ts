@@ -29,6 +29,11 @@ export type ListUserOutputDto = {
 
 export class ListUserUsecase implements Usecase<ListUserInputDto, ListUserOutputDto> {
     private constructor(private readonly userInterface: UserInterface) {};
+
+     public static build(userInterface: UserInterface) {
+        return new ListUserUsecase(userInterface);
+    };
+    
     
     public async execute(input: ListUserInputDto): Promise<ListUserOutputDto> {
         const { page, limit, search } = input;
