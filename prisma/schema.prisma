@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "relationJoins", "postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contract {
+  id               String        @id
+  number           Int
+  local            String
+  phone            String
+  phoneSecondary   String?
+  installationDate DateTime
+  installationHour String
+  products         String[]
+  price            Float
+  status           String
+  userId           String
+  createdAt        DateTime
+  updatedAt        DateTime
+  user             User          @relation(fields: [userId], references: [id])
+}
+
+model Notes {
+  id        String   @id
+  text      String
+  user_id   String
+  createdAt DateTime
+  updatedAt DateTime
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+
+model User {
+  id           String        @id
+  username     String        @unique
+  name         String
+  lastname     String
+  role         String
+  password     String
+  createdAt    DateTime     
+  updatedAt    DateTime
+  Contract     Contract[]
+  Notes        Notes[]
+}
