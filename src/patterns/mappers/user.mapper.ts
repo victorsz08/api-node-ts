@@ -1,7 +1,7 @@
-import { User } from "@prisma/client";
 import { Mapper } from "./mapper.core";
 import { UserEntity, UserType } from "../../domain/entities/user.entity";
 import { RoleEnum } from "../../domain/enum/role.enum";
+import FormartDatePattern from "../utils/transform-date";
 
 export type UserDto = {
     id: string;
@@ -13,43 +13,17 @@ export type UserDto = {
     updatedAt: string;
 };
 
-class UserMapper implements Mapper<User, UserEntity> {
+class UserMapper implements Mapper<UserEntity, UserDto> {
     
-    public toDto(input: User): UserEntity {
-        return UserEntity.with({
-            id: input.id,
-            username: input.username,
-            firstName: input.name,
-            lastName: input.lastname,
-            role: input.role as RoleEnum,
-            password: input.password,
-            createdAt: input.createdAt,
-            updatedAt: input.updatedAt
-        })
-    };
-
-    public toEntity(input: UserType): User {
+    public toDto(user: UserEntity): UserDto {
         return {
-            id: input.id,
-            username: input.username,
-            name: input.firstName,
-            lastname: input.lastName,
-            role: input.role,
-            password: input.password,
-            createdAt: input.createdAt,
-            updatedAt: input.updatedAt
-        };
-    };
-
-    public toOutputDto(input: UserEntity): UserDto {
-        return {
-            id: input.id,
-            username: input.username,
-            firstName: input.firstName,
-            lastName: input.lastName,
-            role: input.role,
-            createdAt: input.createdAt.toISOString(),
-            updatedAt: input.updatedAt.toISOString()
+            id: user.id,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            role: user.role,
+            createdAt: FormartDatePattern.toString(user.createdAt),
+            updatedAt: FormartDatePattern.toString(user.updatedAt)
         }
     };
 };
