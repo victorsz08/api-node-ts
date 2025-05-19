@@ -9,15 +9,14 @@ datasource db {
 }
 
 model Contract {
-  id               String        @id
-  number           Int
-  local            String
-  phone            String
-  phoneSecondary   String?
-  installationDate DateTime
-  installationHour String
-  products         String[]
-  price            Float
+  id               String        @id @map("id")
+  number           Int @map("number")
+  local            String @map("local")
+  phone            String @map("phone")
+  installationDate DateTime @map("installationDate")
+  installationHour String @map("installationHour")
+  products         String[] @map("products")
+  price            Float @map("price")
   status           String
   userId           String
   createdAt        DateTime
