@@ -1,4 +1,3 @@
-import { RoleEnum } from "../../domain/enum/role.enum";
 import { ListUserOutput, UserInterface } from "../../domain/interfaces/user.interface";
 import userMapper from "../../patterns/mappers/user.mapper";
 import { Usecase } from "../usecase.core";
@@ -47,7 +46,7 @@ export class ListUserUsecase implements Usecase<ListUserInputDto, ListUserOutput
     private present(data: ListUserOutput): ListUserOutputDto {
         return {
             users: data.users.map((user) => {
-                return userMapper.toOutputDto(user)
+                return userMapper.toDto(user)
             }),
             total: data.total,
             pages: data.pages,

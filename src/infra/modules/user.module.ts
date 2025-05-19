@@ -15,9 +15,6 @@ import { UpdatePasswordUserRoute } from '../api/express/routes/user/update-passw
 import { DeleteUserRoute } from '../api/express/routes/user/delete.route.express';
 
 
-
-
-export function buildUserRoutes(): Route[] {
     // repository
     const repository = UserRepository.build(prisma);
 
@@ -37,7 +34,7 @@ export function buildUserRoutes(): Route[] {
     const updatePasswordUserRoute = UpdatePasswordUserRoute.build(updatePassworsUserUsecase);
     const deleteUserRoute = DeleteUserRoute.build(deleteUserUsecase);
 
-    return [
+    export const userRoutes = [
         createUserRoute,
         findUserRoute,
         listUserRoute,
@@ -45,4 +42,3 @@ export function buildUserRoutes(): Route[] {
         updateUserRoute,
         deleteUserRoute
     ];
-};

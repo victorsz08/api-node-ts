@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-
+export type T = any;
 export type HttpMethod = "get" | "post" | "put" | "delete";
 
 export const HttpMethod = {
@@ -11,8 +11,8 @@ export const HttpMethod = {
 } as const;
 
 export interface Route {
-    getHandler(): (req: Request, res: Response) => Promise<void>;
+    getHandler(): (req: Request, res: Response) => Promise<T>;
     getPath(): string;
     getMethod(): HttpMethod;
-    getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<void>)[]; 
+    getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[]; 
 };

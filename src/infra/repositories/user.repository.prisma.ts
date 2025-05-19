@@ -17,11 +17,30 @@ export class UserRepository implements UserInterface {
   }
 
   public async create(user: UserEntity): Promise<void> {
-    const data = userMapper.toEntity(user);
+    const { 
+      id,
+      username,
+      firstName,
+      lastName,
+      role,
+      password,
+      createdAt,
+      updatedAt
+    } = user;
 
     await this.repository.user.create({
-      data,
+      data: {
+        id,
+        username,
+        name: firstName,
+        lastname: lastName,
+        role,
+        password,
+        createdAt,
+        updatedAt
+      },
     });
+
     return;
   }
 
@@ -34,7 +53,7 @@ export class UserRepository implements UserInterface {
       );
     }
 
-    const output = userMapper.toDto(user);
+    const output = userMapper.toEntity(user);
     return output;
   }
 
@@ -75,7 +94,7 @@ export class UserRepository implements UserInterface {
     ]);
 
     const pages = Math.ceil(total / limit);
-    const userList = users.map((user) => userMapper.toDto(user));
+    const userList = users.map((user) => userMapper.toEntity(user));
 
     return {
       users: userList,

@@ -12,8 +12,8 @@ export class ApiExpress implements Api {
         this.app = express();
         this.app.use(express.json());
 
-        this.addRoutes(routes);
         this.app.use(HttpHandlerError);
+        this.addRoutes(routes);
     };
 
     public static build(routes: Route[]) {

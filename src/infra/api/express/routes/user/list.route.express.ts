@@ -19,12 +19,20 @@ export class ListUserRoute implements Route {
     return new ListUserRoute("/users", HttpMethod.GET, listUserUsecase);
   }
 
-  public getHandler(): (req: Request, res: Response) => Promise<void> {
+  public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
-      const input: ListUserInputDto = req.query as T;
+      const query = req.query as T;
+      const input: ListUserInputDto = {
+        page: parseInt(query.page),
+        limit: parseInt(query.limit),
+        search: query.search && query.search.toString()
+      };
+      
+      console.log(input);
+
       const response = await this.listUserUsecase.execute(input);
 
-      res.status(200).json(response);
+      return res.status(200).json(response);
     };
   }
 

@@ -39,7 +39,7 @@ export class FindUserUsecase implements Usecase<FindUserInputDto, FindUserOutput
             throw new HttpException("usuário não encontrado com esse id", HttpStatus.NOT_FOUND);
         };
 
-        const output = userMapper.toOutputDto(user);
+        const output = userMapper.toDto(user);
 
         return output;
     };
