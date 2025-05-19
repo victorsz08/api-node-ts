@@ -7,6 +7,8 @@ export type ListOrderInput = {
     userId: string;
     createdDateIn?: Date;
     createdDateOut?: Date;
+    schedulingDateIn?: Date;
+    schedulingDateOut?: Date;
     status?: StatusEnum;
 };
 
