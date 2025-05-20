@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, Status } from '@prisma/client';
 import { OrderEntity } from "../../domain/entities/order.entity";
 import { StatusEnum } from "../../domain/enum/status.enum";
 import { ListOrderInput, ListOrderOutput, OrderInterface } from "../../domain/interfaces/order.interface";
@@ -44,7 +44,7 @@ export class OrderRepository implements OrderInterface {
                 installationDate: schedulingDate,
                 installationHour: schedulingTime,
                 products: [""],
-                status,
+                status: status as Status,
                 price,
                 phone: contact,
                 user: { connect: { id: userId } },
@@ -97,16 +97,16 @@ export class OrderRepository implements OrderInterface {
             queryArgs.where = {
                 ...queryArgs.where,
                 createdAt: {
-                    gte: createdDateIn.toISOString(),
-                    lte: createdDateOut.toISOString()
+                    gte: createdDateIn,
+                    lte: createdDateOut
                 }
             };
 
             countArgs.where = {
                 ...countArgs.where,
                 createdAt: {
-                    gte: createdDateIn.toISOString(),
-                    lte: createdDateOut.toISOString()
+                    gte: createdDateIn,
+                    lte: createdDateOut
                 }
             };
         };
@@ -116,8 +116,8 @@ export class OrderRepository implements OrderInterface {
                 ...queryArgs.where,
                 installationDate
                 : {
-                    gte: subDays(startOfDay(schedulingDateIn), 1).toISOString(),
-                    lte: endOfDay(schedulingDateOut).toISOString()
+                    gte: schedulingDateIn,
+                    lte: schedulingDateOut
                 }
             };
 
@@ -125,8 +125,8 @@ export class OrderRepository implements OrderInterface {
                 ...countArgs.where,
                 installationDate
                 : {
-                    gte: subDays(startOfDay(schedulingDateIn), 1).toISOString(),
-                    lte: endOfDay(schedulingDateOut).toISOString()
+                    gte: schedulingDateIn,
+                    lte: schedulingDateOut
                 }
             };
         };
@@ -134,16 +134,12 @@ export class OrderRepository implements OrderInterface {
         if(status) {
             queryArgs.where = {
                 ...queryArgs.where,
-                status: {
-                    contains: status, mode: "insensitive"
-                }
+                status: status as Status
             };
 
             countArgs.where = {
                 ...countArgs.where,
-                status: {
-                    contains: status, mode: "insensitive"
-                }
+                status: status as Status
             };
         };
 

@@ -2,6 +2,9 @@ import { ListOrderInputDto, ListOrderUsecase } from './../../../../../usecases/o
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { StatusEnum } from '../../../../../domain/enum/status.enum';
+import { LoggerMiddleware } from '../../../../../middlewares/logger.middleware';
+import { endOfDay, startOfDay } from 'date-fns';
+import formatDatePattern from '../../../../../patterns/libs/format-date.pattern';
 
 
 
@@ -20,15 +23,16 @@ export class ListOrderRoute implements Route {
     public getHandler(): (req: Request, res: Response) => Promise<T> {
         return async (req: Request, res: Response) => {
             const query = req.query as any;
+            
             const input: ListOrderInputDto = {
                 page: parseInt(query.page),
                 limit: parseInt(query.limit),
                 userId: query.userId.toString(),
-                createdDateIn: new Date(query.createdDateIn),
-                createdDateOut: new Date(query.createdDateOut),
-                schedulingDateIn: new Date(query.schedulingDateIn),
-                schedulingDateOut: new Date(query.schedulingDateOut),
-                status: query.status as StatusEnum
+                createdDateIn: query.createdDateIn && formatDatePattern.startOfDate(query.createdDateIn),
+                createdDateOut: query.createdDateOut && formatDatePattern.endOfDate(query.createdDateOut),
+                schedulingDateIn: query.schedulingDateIn  && formatDatePattern.startOfDate(query.schedulingDateIn),
+                schedulingDateOut: query.schedulingDateOut  &&  formatDatePattern.endOfDate(query.schedulingDateOut),
+                status: query.status && query.status as StatusEnum
             };
 
             const response = await this.listOrderUsecase.execute(input);
@@ -36,13 +40,17 @@ export class ListOrderRoute implements Route {
         };
     };
 
-    getPath(): string {
-        throw new Error("Method not implemented.");
-    }
-    getMethod(): HttpMethod {
-        throw new Error("Method not implemented.");
-    }
-    getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<void>)[] {
-        throw new Error("Method not implemented.");
-    }
+    public getPath(): string {
+        return this.path;
+    };
+
+    public getMethod(): HttpMethod {
+        return this.method;
+    };
+
+    public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<void>)[] {
+        return [
+            LoggerMiddleware()
+        ]
+    };
 };
