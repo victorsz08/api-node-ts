@@ -1,16 +1,21 @@
 import { Request, Response, NextFunction } from "express";
-
-
+import { decode, verify } from "jsonwebtoken";
 
 
 export function LoggerMiddleware() {
     return async (req: Request, res: Response, next: NextFunction) => {
-        // const token = req.cookies["nt.authtoken"];
+        const token = req.cookies["nt.authtoken"];
+
+        if(!token) {
+            return res.status(401).json({ message: "token não localizado" });
+        };
 
         try {
+            verify(token, process.env.JW_SECRET!);
+
             next()
         } catch (error) {
-            res.status(401).json({ message: "unauthorized" });
+            return res.status(401).json({ message: "unauthorized" });
         };
     };
 };
