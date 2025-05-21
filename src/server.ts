@@ -4,6 +4,7 @@ import { orderRoutes } from "./infra/modules/order.module";
 import "dotenv/config";
 import { authRoutes } from "./infra/modules/auth.module";
 import { noteRoutes } from "./infra/modules/note.module";
+import { insightRoutes } from "./infra/modules/insight.module";
 
 
 function main() {
@@ -11,7 +12,8 @@ function main() {
         ...userRoutes,
         ...orderRoutes,
         ...authRoutes,
-        ...noteRoutes
+        ...noteRoutes,
+        ...insightRoutes
     ]);
 
     api.start(3000);
