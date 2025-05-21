@@ -1,6 +1,6 @@
 import { startOfDay, endOfDay, addDays } from 'date-fns';
 
-class FormatDatePattern {
+class FormatDate {
     public startOfDate(date: Date): Date {
         return addDays(startOfDay(date), 1);
     };
@@ -10,4 +10,4 @@ class FormatDatePattern {
     };
 };
 
-export default new FormatDatePattern();
+export default new FormatDate();

@@ -24,6 +24,10 @@ export class NoteEntity {
         });
     };
 
+    public static with(props: NoteType) {
+        return new NoteEntity(props);
+    };
+
     public get id() {
         return this.props.id;
     };

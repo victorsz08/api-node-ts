@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { StatusEnum } from '../../../../../domain/enum/status.enum';
 import { LoggerMiddleware } from '../../../../../middlewares/logger.middleware';
-import { endOfDay, startOfDay } from 'date-fns';
 import formatDatePattern from '../../../../../patterns/libs/format-date.pattern';
 
 
@@ -48,7 +47,7 @@ export class ListOrderRoute implements Route {
         return this.method;
     };
 
-    public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<void>)[] {
+    public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<any>)[] {
         return [
             LoggerMiddleware()
         ]
