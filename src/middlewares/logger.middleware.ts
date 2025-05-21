@@ -11,9 +11,7 @@ export function LoggerMiddleware() {
         };
 
         try {
-            const decoded = verify(token, config.secret);
-            
-            console.log(token)
+            verify(token, config.secret);
             next()
         } catch (error) {
             return res.status(401).json({ message: "unauthorized" });

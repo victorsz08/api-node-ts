@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpMethod, Route } from "../route.express";
+import { HttpMethod, Route, T } from "../route.express";
 import {
   CreateUserInputDto,
   CreateUserUsecase,
 } from "../../../../../usecases/user/create.usecase";
+import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { AccessGuard } from "../../../../../middlewares/access-guard.middleware";
+import { RoleEnum } from "../../../../../domain/enum/role.enum";
 
 export class CreateUserRoute implements Route {
   private constructor(
@@ -16,12 +19,12 @@ export class CreateUserRoute implements Route {
     return new CreateUserRoute("/users", HttpMethod.POST, createUserUsecase);
   };
 
-  public getHandler(): (req: Request, res: Response) => Promise<void> {
+  public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
       const input: CreateUserInputDto = req.body;
       await this.createUserUsecase.execute(input);
 
-      res.status(201).send();
+      return res.status(201).send();
     };
   }
 
@@ -37,7 +40,10 @@ export class CreateUserRoute implements Route {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => Promise<void>)[] {
-    return [];
+  ) => Promise<T>)[] {
+    return [
+      LoggerMiddleware(),
+      AccessGuard(RoleEnum.ADMIN)
+    ];
   }
 }
