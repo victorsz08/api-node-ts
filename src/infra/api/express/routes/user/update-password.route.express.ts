@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpMethod, Route } from "../route.express";
+import { HttpMethod, Route, T } from "../route.express";
 import { UpdatePasswordUserUsecase } from "../../../../../usecases/user/udpate-password.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
@@ -18,7 +18,7 @@ export class UpdatePasswordUserRoute implements Route {
     );
   }
 
-  public getHandler(): (req: Request, res: Response) => Promise<void> {
+  public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
       const { id } = req.params;
       const { currentPassword, newPassword } = req.body;
@@ -44,7 +44,7 @@ export class UpdatePasswordUserRoute implements Route {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => Promise<void>)[] {
+  ) => Promise<T>)[] {
     return [
       LoggerMiddleware()
     ]

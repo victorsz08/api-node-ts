@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpMethod, Route } from "../route.express";
+import { HttpMethod, Route, T } from "../route.express";
 import { DeleteUserUsecase } from "../../../../../usecases/user/delete.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
@@ -18,7 +18,7 @@ export class DeleteUserRoute implements Route {
     );
   }
 
-  public getHandler(): (req: Request, res: Response) => Promise<void> {
+  public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
       const { id } = req.params;
 
@@ -39,7 +39,7 @@ export class DeleteUserRoute implements Route {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => Promise<void>)[] {
+  ) => Promise<T>)[] {
     return [
       LoggerMiddleware()
     ]

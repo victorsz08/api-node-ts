@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { HttpMethod, Route } from "../route.express";
+import { HttpMethod, Route, T } from "../route.express";
 import { UpdateUserUsecase } from "../../../../../usecases/user/update.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 
@@ -14,7 +14,7 @@ export class UpdateUserRoute implements Route {
     return new UpdateUserRoute("/users/:id", HttpMethod.PUT, updateUserUsecase);
   }
 
-  public getHandler(): (req: Request, res: Response) => Promise<void> {
+  public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
       const { id } = req.params;
       const { username, firstName, lastName } = req.body;
@@ -41,7 +41,7 @@ export class UpdateUserRoute implements Route {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => Promise<void>)[] {
+  ) => Promise<T>)[] {
     return [
       LoggerMiddleware()
     ]

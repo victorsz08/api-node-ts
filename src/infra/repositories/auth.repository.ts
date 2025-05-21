@@ -4,6 +4,7 @@ import { HttpException } from "../../package/http-exceptions/http-exception";
 import { HttpStatus } from "../../package/http-exceptions/http-status";
 import generateHashPattern from "../../patterns/libs/generate-hash.pattern";
 import { sign } from "jsonwebtoken";
+import { config } from "../../../prisma/config";
 
 
 
@@ -30,7 +31,7 @@ export class AuthRepository implements AuthInterface {
         const payload = sign({
             id: user.id,
             role: user.role
-        }, process.env.JWT_SECRET!, { expiresIn: "1d" });
+        }, config.secret, { expiresIn: "1d" });
         
         return payload;
     };

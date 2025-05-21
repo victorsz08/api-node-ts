@@ -14,6 +14,10 @@ export type FindNoteOutputDto = NoteDto;
 
 export class FindNoteUsecase implements Usecase<FindNoteInputDto, FindNoteOutputDto> {
     private constructor(private readonly noteInterface: NoteInterface) {};
+
+    public static build(noteInterface: NoteInterface) {
+        return new FindNoteUsecase(noteInterface);
+    }
     
     public async execute(input: FindNoteInputDto): Promise<NoteDto> {
         const { id } = input;

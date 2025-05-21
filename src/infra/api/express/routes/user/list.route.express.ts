@@ -47,7 +47,7 @@ export class ListUserRoute implements Route {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => Promise<void>)[] {
+  ) => Promise<T>)[] {
     return [
       LoggerMiddleware()
     ]
