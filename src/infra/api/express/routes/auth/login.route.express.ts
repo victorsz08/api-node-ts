@@ -1,0 +1,44 @@
+import { Request, Response, NextFunction } from "express";
+import { HttpMethod, Route, T } from "../route.express";
+import { AuthLoginUsecase } from "../../../../../usecases/auth/login.usecase";
+
+
+
+
+export class AuthLoginRoute implements Route {
+    private constructor(
+        private readonly path: string,
+        private readonly method: HttpMethod,
+        private readonly authLoginUsecase: AuthLoginUsecase
+    ) {};
+
+    public static build(authLoginUsecase: AuthLoginUsecase) {
+        return new AuthLoginRoute("/auth/login", HttpMethod.POST, authLoginUsecase);
+    };
+    
+    public getHandler(): (req: Request, res: Response) => Promise<T> {
+        return async (req: Request, res: Response) => {
+            const { username, password } = req.body;
+            const payload = await this.authLoginUsecase.execute({ username, password });
+
+            res.cookie("nt.authtoken", payload, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 60 * 24 // 1 dia
+            });
+
+            return res.status(204).send();
+        };
+    };
+
+    public getPath(): string {
+        return this.path;
+    };
+
+    public getMethod(): HttpMethod {
+        return this.method;
+    };
+
+    public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
+        return [];
+    }
+};

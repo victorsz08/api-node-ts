@@ -27,8 +27,7 @@ export class ListUserRoute implements Route {
         limit: parseInt(query.limit),
         search: query.search && query.search.toString()
       };
-      
-      console.log(input);
+    
 
       const response = await this.listUserUsecase.execute(input);
 

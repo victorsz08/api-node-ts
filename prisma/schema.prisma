@@ -17,7 +17,7 @@ model Contract {
   installationHour String @map("installationHour")
   products         String[] @map("products")
   price            Float @map("price")
-  status           String
+  status           Status
   userId           String
   createdAt        DateTime
   updatedAt        DateTime
@@ -39,10 +39,21 @@ model User {
   username     String        @unique
   name         String
   lastname     String
-  role         String
+  role         Role
   password     String
   createdAt    DateTime     
   updatedAt    DateTime
   Contract     Contract[]
   Notes        Notes[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  CONECTADO
+  PENDENTE
+  CANCELADO
 }

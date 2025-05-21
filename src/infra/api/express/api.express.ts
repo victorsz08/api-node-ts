@@ -3,6 +3,7 @@ import { Express } from "express";
 import express from "express"
 import { Route } from "./routes/route.express";
 import { HttpHandlerError } from "../../../middlewares/http-handler-error.middleware";
+import cookieParser from "cookie-parser";
 
 
 export class ApiExpress implements Api {
@@ -13,6 +14,7 @@ export class ApiExpress implements Api {
         this.app.use(express.json());
 
         this.app.use(HttpHandlerError);
+        this.app.use(cookieParser())
         this.addRoutes(routes);
     };
 
