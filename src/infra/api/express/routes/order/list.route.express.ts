@@ -4,6 +4,9 @@ import { HttpMethod, Route, T } from "../route.express";
 import { StatusEnum } from '../../../../../domain/enum/status.enum';
 import { LoggerMiddleware } from '../../../../../middlewares/logger.middleware';
 import formatDatePattern from '../../../../../patterns/libs/format-date.pattern';
+import { ValidateData } from '../../../../../middlewares/validate-data.middleware';
+import { listOrderSchema } from '../../../../../validators/order.schemas';
+import { listUserSchema } from '../../../../../validators/user.schema';
 
 
 
@@ -21,18 +24,9 @@ export class ListOrderRoute implements Route {
     
     public getHandler(): (req: Request, res: Response) => Promise<T> {
         return async (req: Request, res: Response) => {
-            const query = req.query as any;
+            const query = req.query as T;
             
-            const input: ListOrderInputDto = {
-                page: parseInt(query.page),
-                limit: parseInt(query.limit),
-                userId: query.userId.toString(),
-                createdDateIn: query.createdDateIn && formatDatePattern.startOfDate(query.createdDateIn),
-                createdDateOut: query.createdDateOut && formatDatePattern.endOfDate(query.createdDateOut),
-                schedulingDateIn: query.schedulingDateIn  && formatDatePattern.startOfDate(query.schedulingDateIn),
-                schedulingDateOut: query.schedulingDateOut  &&  formatDatePattern.endOfDate(query.schedulingDateOut),
-                status: query.status && query.status as StatusEnum
-            };
+            const input = listOrderSchema.parse(query);
 
             const response = await this.listOrderUsecase.execute(input);
             return res.status(200).json(response);
@@ -49,7 +43,8 @@ export class ListOrderRoute implements Route {
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<any>)[] {
         return [
-            LoggerMiddleware()
+            LoggerMiddleware(),
+            ValidateData(listOrderSchema, "query")
         ]
     };
 };

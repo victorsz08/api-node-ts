@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { CreateNoteUsecase } from "../../../../../usecases/note/create.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { createNoteSchema } from "../../../../../validators/note.schema";
+import { findUserIdSchema } from "../../../../../validators/order.schemas";
 
 
 
@@ -37,7 +40,9 @@ export class CreateNoteRoute implements Route {
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
-            LoggerMiddleware()
+            LoggerMiddleware(),
+            ValidateData(createNoteSchema, "body"),
+            ValidateData(findUserIdSchema, "params")
         ];
     };
 };

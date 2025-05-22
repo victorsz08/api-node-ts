@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { UpdateNoteUsecase } from "../../../../../usecases/note/update.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findNoteSchema, updateNoteSchema } from "../../../../../validators/note.schema";
 
 
 
@@ -36,7 +38,9 @@ export class UpdateNoteRoute implements Route {
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
-            LoggerMiddleware()
+            LoggerMiddleware(),
+            ValidateData(findNoteSchema, "params"),
+            ValidateData(updateNoteSchema, "body")
         ];
     };
 };

@@ -2,6 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { DeleteUserUsecase } from "../../../../../usecases/user/delete.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { AccessGuard } from "../../../../../middlewares/access-guard.middleware";
+import { RoleEnum } from "../../../../../domain/enum/role.enum";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findUserSchema } from "../../../../../validators/user.schema";
 
 export class DeleteUserRoute implements Route {
   private constructor(
@@ -41,7 +45,9 @@ export class DeleteUserRoute implements Route {
     next: NextFunction
   ) => Promise<T>)[] {
     return [
-      LoggerMiddleware()
+      LoggerMiddleware(),
+      AccessGuard(RoleEnum.ADMIN),
+      ValidateData(findUserSchema, "params")
     ]
   }
 }

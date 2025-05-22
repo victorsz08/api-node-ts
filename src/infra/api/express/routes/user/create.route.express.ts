@@ -7,6 +7,8 @@ import {
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 import { AccessGuard } from "../../../../../middlewares/access-guard.middleware";
 import { RoleEnum } from "../../../../../domain/enum/role.enum";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { createUserSchema } from "../../../../../validators/user.schema";
 
 export class CreateUserRoute implements Route {
   private constructor(
@@ -22,6 +24,7 @@ export class CreateUserRoute implements Route {
   public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
       const input: CreateUserInputDto = req.body;
+
       await this.createUserUsecase.execute(input);
 
       return res.status(201).send();
@@ -43,7 +46,8 @@ export class CreateUserRoute implements Route {
   ) => Promise<T>)[] {
     return [
       LoggerMiddleware(),
-      AccessGuard(RoleEnum.ADMIN)
+      AccessGuard(RoleEnum.ADMIN),
+      ValidateData(createUserSchema, "body")
     ];
   }
 }

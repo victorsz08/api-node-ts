@@ -1,12 +1,12 @@
 import {
-  FindUserInputDto,
   FindUserUsecase,
 } from "./../../../../../usecases/user/find.usecase";
 import { Request, Response, NextFunction } from "express";
-import { HttpMethod, Route } from "../route.express";
+import { HttpMethod, Route, T } from "../route.express";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findUserSchema } from "../../../../../validators/user.schema";
 
-type T = any;
 
 export class FindUserRoute implements Route {
   private constructor(
@@ -19,12 +19,13 @@ export class FindUserRoute implements Route {
     return new FindUserRoute("/users/:id", HttpMethod.GET, findUserUsecase);
   }
 
-  public getHandler(): (req: Request, res: Response) => Promise<void> {
+  public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
-      const input: FindUserInputDto = req.params as T;
-      const response = await this.findUserUsecase.execute(input);
+      const { id } = req.params;
 
-      res.status(200).json(response);
+      const response = await this.findUserUsecase.execute({ id });
+
+      return res.status(200).json(response);
     };
   }
 
@@ -42,7 +43,8 @@ export class FindUserRoute implements Route {
     next: NextFunction
   ) => Promise<T>)[] {
     return [
-      LoggerMiddleware()
+      LoggerMiddleware(),
+      ValidateData(findUserSchema, "params")
     ]
   }
 }

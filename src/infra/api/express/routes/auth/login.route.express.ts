@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { AuthLoginUsecase } from "../../../../../usecases/auth/login.usecase";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { authLoginSchema } from "../../../../../validators/login.schema";
 
 
 
@@ -39,6 +41,8 @@ export class AuthLoginRoute implements Route {
     };
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
-        return [];
+        return [
+            ValidateData(authLoginSchema, "body")
+        ];
     }
 };

@@ -4,6 +4,10 @@ import { GrantedUserUsecase } from "../../../../../usecases/security/granted-use
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 import { AccessGuard } from "../../../../../middlewares/access-guard.middleware";
 import { RoleEnum } from "../../../../../domain/enum/role.enum";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findUserIdSchema } from "../../../../../validators/order.schemas";
+import { findUserSchema } from "../../../../../validators/user.schema";
+import { grantedUserSchema } from "../../../../../validators/granted-user.schema";
 
 
 export class GrantedUserRoute implements Route {
@@ -38,7 +42,9 @@ export class GrantedUserRoute implements Route {
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
             LoggerMiddleware(),
-            AccessGuard(RoleEnum.ADMIN)
+            AccessGuard(RoleEnum.ADMIN),
+            ValidateData(findUserSchema, "params"),
+            ValidateData(grantedUserSchema, "body")
         ];
     };
 };

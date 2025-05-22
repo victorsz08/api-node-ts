@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { DeleteOrderUsecase } from "../../../../../usecases/order/delete.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findOrderSchema } from "../../../../../validators/order.schemas";
 
 
 
@@ -35,7 +37,8 @@ export class DeleteOrderRoute implements Route {
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
-            LoggerMiddleware()
+            LoggerMiddleware(),
+            ValidateData(findOrderSchema, "params")
         ];
     };
 };

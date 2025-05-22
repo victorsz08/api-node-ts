@@ -3,6 +3,9 @@ import { HttpMethod, Route, T } from "../route.express";
 import { ListNoteInputDto, ListNoteUsecase } from "../../../../../usecases/note/list.usecase";
 import formatDatePattern from "../../../../../patterns/libs/format-date.pattern";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { listNoteSchema } from "../../../../../validators/note.schema";
+import { listOrderSchema } from "../../../../../validators/order.schemas";
 
 
 
@@ -20,14 +23,8 @@ export class ListNoteRoute implements Route {
 
     public getHandler(): (req: Request, res: Response) => Promise<T> {
         return async (req: Request, res: Response) =>  {
-            const { page, limit, userId, dateIn, dateOut } = req.query as T;
-            const input: ListNoteInputDto = {
-                page: Number(page),
-                limit: Number(limit),
-                userId: userId.toString(),
-                dateIn: dateIn && formatDatePattern.startOfDate(dateIn),
-                dateOut: dateOut && formatDatePattern.endOfDate(dateOut)
-            };
+            const query = req.query as T;
+            const input = listOrderSchema.parse(query);
 
             const data = await this.listNoteUsecase.execute(input);
 
@@ -45,7 +42,8 @@ export class ListNoteRoute implements Route {
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
-            LoggerMiddleware()
+            LoggerMiddleware(),
+            ValidateData(listNoteSchema, "query")
         ];
     };
 };

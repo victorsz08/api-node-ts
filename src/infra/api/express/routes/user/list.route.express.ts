@@ -5,8 +5,12 @@ import {
   ListUserUsecase,
 } from "../../../../../usecases/user/list.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { listUserSchema } from "../../../../../validators/user.schema";
+import { z } from "zod";
 
 type T = any;
+type ListUserInput = z.infer<typeof listUserSchema>
 
 export class ListUserRoute implements Route {
   private constructor(
@@ -22,12 +26,7 @@ export class ListUserRoute implements Route {
   public getHandler(): (req: Request, res: Response) => Promise<T> {
     return async (req: Request, res: Response) => {
       const query = req.query as T;
-      const input: ListUserInputDto = {
-        page: parseInt(query.page),
-        limit: parseInt(query.limit),
-        search: query.search && query.search.toString()
-      };
-    
+      const input = listUserSchema.parse(query)
 
       const response = await this.listUserUsecase.execute(input);
 
@@ -49,7 +48,8 @@ export class ListUserRoute implements Route {
     next: NextFunction
   ) => Promise<T>)[] {
     return [
-      LoggerMiddleware()
+      LoggerMiddleware(),
+      ValidateData(listUserSchema, "query")
     ]
   }
 }

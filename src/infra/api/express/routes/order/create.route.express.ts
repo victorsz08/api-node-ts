@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { CreateOrderUsecase } from "../../../../../usecases/order/create.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { createOrderSchema, findUserIdSchema } from "../../../../../validators/order.schemas";
 
 
 
@@ -53,7 +55,9 @@ export class CreateOrderRoute implements Route {
 
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
-            LoggerMiddleware()
+            LoggerMiddleware(),
+            ValidateData(createOrderSchema, "body"),
+            ValidateData(findUserIdSchema, "params")
         ];
     };
 };

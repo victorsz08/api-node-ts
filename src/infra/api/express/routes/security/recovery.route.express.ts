@@ -4,6 +4,8 @@ import { SecuityRecoveryUsecase } from "../../../../../usecases/security/recover
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 import { AccessGuard } from "../../../../../middlewares/access-guard.middleware";
 import { RoleEnum } from "../../../../../domain/enum/role.enum";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findUserSchema } from "../../../../../validators/user.schema";
 
 
 
@@ -40,7 +42,8 @@ export class SecurityRecoveryRoute implements Route {
     public getMiddlewares?(): ((req: Request, res: Response, next: NextFunction) => Promise<T>)[] {
         return [
             LoggerMiddleware(),
-            AccessGuard(RoleEnum.ADMIN)
+            AccessGuard(RoleEnum.ADMIN),
+            ValidateData(findUserSchema, "params")
         ];
     };
 };

@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
 import { UpdatePasswordUserUsecase } from "../../../../../usecases/user/udpate-password.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
+import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
+import { findUserSchema, updatePasswordSchema } from "../../../../../validators/user.schema";
 
 export class UpdatePasswordUserRoute implements Route {
   private constructor(
@@ -46,7 +48,9 @@ export class UpdatePasswordUserRoute implements Route {
     next: NextFunction
   ) => Promise<T>)[] {
     return [
-      LoggerMiddleware()
+      LoggerMiddleware(),
+      ValidateData(findUserSchema, "params"),
+      ValidateData(updatePasswordSchema, "body")
     ]
   }
 }

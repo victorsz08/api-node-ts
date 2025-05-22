@@ -4,6 +4,8 @@ import express from "express"
 import { Route } from "./routes/route.express";
 import { HttpHandlerError } from "../../../middlewares/http-handler-error.middleware";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import helmet from "helmet";
 
 
 export class ApiExpress implements Api {
@@ -12,6 +14,12 @@ export class ApiExpress implements Api {
     private constructor(routes: Route[]) {
         this.app = express();
         this.app.use(express.json());
+        this.app.use(cors({
+            origin: "*",
+            methods: ["POST, GET, PUT, DELETE"],
+            credentials: true,
+        }))
+        this.app.use(helmet())
 
         this.app.use(HttpHandlerError);
         this.app.use(cookieParser())
