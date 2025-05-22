@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.insightRoutes = void 0;
+const prisma_service_1 = require("../../package/prisma/prisma.service");
+const get_usecase_1 = require("../../usecases/insight/get.usecase");
+const get_route_express_1 = require("../api/express/routes/insight/get.route.express");
+const insight_repository_1 = require("../repositories/insight.repository");
+const insightRepository = insight_repository_1.InsightRepository.build(prisma_service_1.prisma);
+const getInsightUsecase = get_usecase_1.GetInsightUsecase.build(insightRepository);
+const getInsightRoute = get_route_express_1.GetInsightRoute.build(getInsightUsecase);
+exports.insightRoutes = [
+    getInsightRoute
+];
