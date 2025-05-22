@@ -17,20 +17,19 @@ describe("Listt Orders Route", () => {
                 userId: "123456"
             }
         } as unknown as Request;
-        
+
         const mockOrderData = [
-                    {
-                        id: "00000",
-                        number: 1111111111,
-                        local: "São Paulo",
-                        schedulingDate: "22/05/2025",
-                        schedulingTime: "12h as 15h",
-                        status: StatusEnum.PENDING,
-                        contact: "11 99999-9999",
-                        userId: "00000000",
-                        createdAt: "22/05/2025",
-                        updatedAt: "22/05/2025"
-                    }
+            {
+                id: "00000",
+                number: 1111111111,
+                local: "São Paulo",
+                schedulingDate: "22/05/2025",
+                schedulingTime: "12h as 15h",
+                status: StatusEnum.PENDING,
+                contact: "11 99999-9999",
+                createdAt: "22/05/2025",
+                updatedAt: "22/05/2025"
+            }
         ];
 
         const response = {
@@ -38,7 +37,7 @@ describe("Listt Orders Route", () => {
             json: jest.fn().mockReturnValue(mockOrderData)
         } as unknown as Response;
 
-        const mockExecute = jest.fn().mockReturnValue(mockOrderData);
+        const mockExecute = jest.fn().mockResolvedValue(mockOrderData);
         const mockUsecase = { execute: mockExecute } as unknown as ListOrderUsecase;
 
         const route = ListOrderRoute.build(mockUsecase);
