@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ListNoteUsecase } from "../../../../../../usecases/note/list.usecase";
 import { ListNoteRoute } from "../list.route.express";
+import { listNoteSchema } from "../../../../../../validators/note.schema";
 
 describe("List Note Route", () => {
   test("list notes successfully", async () => {
@@ -9,6 +10,8 @@ describe("List Note Route", () => {
         page: 1,
         limit: 10,
         userId: "123456",
+        dateIn: "2025-05-01",
+        dateOut: "2025-05-20"
       },
     } as unknown as Request;
 
@@ -39,7 +42,9 @@ describe("List Note Route", () => {
 
     await handler(request, response);
 
-    expect(mockExecute).toHaveBeenCalledWith(request.query);
+    const objectedExpected = listNoteSchema.parse(request.query);
+
+    expect(mockExecute).toHaveBeenCalledWith(objectedExpected);
     expect(response.status).toHaveBeenCalledWith(200);
     expect(response.json).toHaveBeenCalledWith(dataNoteList);
   });

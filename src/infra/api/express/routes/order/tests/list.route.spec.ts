@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { StatusEnum } from "../../../../../../domain/enum/status.enum";
 import { ListOrderUsecase } from "../../../../../../usecases/order/list.usecase";
 import { ListOrderRoute } from "../list.route.express";
+import { listOrderSchema } from "../../../../../../validators/order.schemas";
 
 
 
@@ -11,7 +12,12 @@ describe("List Orders Route", () => {
             query: {
                 page: 1,
                 limit: 10,
-                userId: "123456"
+                userId: "123456",
+                createdDateIn: "2025-01-02",
+                createdDateOut: "2025-01-02",
+                schedulingDateIn: "2025-01-02",
+                schedulingDateOut: "2025-01-02",
+                status: StatusEnum.CANCELED
             }
         } as unknown as Request;
 
@@ -42,7 +48,9 @@ describe("List Orders Route", () => {
 
         await handler(request, response);
 
-        expect(mockExecute).toHaveBeenCalledWith(request.query);
+        const objectExpected = listOrderSchema.parse(request.query);
+
+        expect(mockExecute).toHaveBeenCalledWith(objectExpected);
         expect(response.status).toHaveBeenCalledWith(200);
         expect(response.json).toHaveBeenCalledWith(mockOrderData);
 
