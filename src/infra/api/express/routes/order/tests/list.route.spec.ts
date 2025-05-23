@@ -1,14 +1,11 @@
 import { Request, Response } from "express";
-import test, { describe } from "node:test";
-import { OrderEntity } from "../../../../../../domain/entities/order.entity";
 import { StatusEnum } from "../../../../../../domain/enum/status.enum";
-import { OrderDto } from "../../../../../../patterns/mappers/order.mapper";
 import { ListOrderUsecase } from "../../../../../../usecases/order/list.usecase";
 import { ListOrderRoute } from "../list.route.express";
 
 
 
-describe("Listt Orders Route", () => {
+describe("List Orders Route", () => {
     test("list orders successfully", async () => {
         const request = {
             query: {

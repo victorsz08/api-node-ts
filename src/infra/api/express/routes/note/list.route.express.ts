@@ -24,7 +24,7 @@ export class ListNoteRoute implements Route {
     public getHandler(): (req: Request, res: Response) => Promise<T> {
         return async (req: Request, res: Response) =>  {
             const query = req.query as T;
-            const input = listOrderSchema.parse(query);
+            const input = listNoteSchema.parse(query);
 
             const data = await this.listNoteUsecase.execute(input);
 
