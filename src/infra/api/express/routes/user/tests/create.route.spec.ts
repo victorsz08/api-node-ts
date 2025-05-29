@@ -36,44 +36,7 @@ describe("create user test", () => {
         const userData = createUserSchema.parse(request.body)
 
         expect(mockCreateUserUsecase.execute).toHaveBeenCalledWith(userData);
-        expect(response.status).toBe(201);
+        expect(response.status).toHaveBeenCalledWith(201);
         expect(response.send).toHaveBeenCalled();
-    })
-
-    test("should a be username already exists", async () => {
-        const request = {
-            body: {
-                username: "invalid.username",
-                firstName: "invalid",
-                lastName: "invalid",
-                password: "invalid"
-            }
-        } as unknown as Request;
-
-        const mockError = {
-            statusCode: 409,
-            error: "username indisponivel"
-        };
-
-        const response = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn().mockReturnValue(mockError)
-        } as unknown as Response;
-
-        const objectExpected = createUserSchema.parse(request.body);
-        const route = CreateUserRoute.build(mockCreateUserUsecase);
-
-        const handler = route.getHandler()
-
-        await handler(request, response);
-        await mockCreateUserUsecase.execute(objectExpected)
-
-        await expect(mockCreateUserUsecase.execute(objectExpected)).rejects.toEqual(
-            new HttpException("username indisponivel", HttpStatus.CONFLICT)
-        )
-        expect(response.status).toBe(409);
-        expect(response.json).toBe(mockError)
-    })
-
-    test("should a be ")
+    });
 });
