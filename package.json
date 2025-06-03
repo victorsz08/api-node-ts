@@ -8,7 +8,9 @@
     "build": "npx tsc",
     "postinstall": "npx prisma generate",
     "start": "node ./dist/server.js",
-    "test": "jest --passWithNoTests"
+    "test": "jest --detectOpenHandles --passWithNoTests",
+    "test:watch": "jest --watch --detectOpenHandles",
+    "test:coverage": "jest --coverage --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
