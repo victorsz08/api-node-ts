@@ -31,10 +31,13 @@ export class AuthSessionRoute implements Route {
 
     public getHandler(): (req: Request, res: Response) => Promise<T> {
         return async (req: Request, res: Response) => {
-            const token = req.cookies["nt.authtoken"]?.token;
+            const token = req.cookies["nt.authtoken"];
+
+            if(!token) {
+                return res.status(401).send("unautorized");
+            };
             
-            verify(token, config.secret);
-            const session = decode(token);
+            const session = verify(token, config.secret);
 
             return res.status(200).json(session)
         };
