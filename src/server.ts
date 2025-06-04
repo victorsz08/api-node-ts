@@ -7,6 +7,7 @@ import { noteRoutes } from "./infra/modules/note.module";
 import { insightRoutes } from "./infra/modules/insight.module";
 import { securityRoutes } from "./infra/modules/security.module";
 
+const PORT = parseInt(process.env.PORT || "8000") | 8000;
 
 function main() {
     const api = ApiExpress.build([
@@ -18,7 +19,7 @@ function main() {
         ...securityRoutes
     ]);
 
-    api.start(3000);
+    api.start(PORT);
 };
 
 main();

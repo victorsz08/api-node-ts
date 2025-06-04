@@ -13,14 +13,16 @@ export class ApiExpress implements Api {
 
     private constructor(routes: Route[]) {
         this.app = express();
-        this.app.use(express.json());
+        
         this.app.use(cors({
-            origin: "*",
-            methods: ["POST, GET, PUT, DELETE"],
+            origin: process.env.ORIGIN_ALLOWED,
+            methods: ["POST", "GET", "PUT", "DELETE"],
             credentials: true,
         }))
-        this.app.use(helmet())
 
+        this.app.use(express.json());
+        this.app.use(helmet())
+        
         this.app.use(HttpHandlerError);
         this.app.use(cookieParser())
         this.addRoutes(routes);

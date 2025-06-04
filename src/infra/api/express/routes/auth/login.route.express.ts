@@ -23,10 +23,12 @@ export class AuthLoginRoute implements Route {
             const { username, password } = req.body;
             const payload = await this.authLoginUsecase.execute({ username, password });
 
-            res.cookie("nt.authtoken", payload, {
+            res.cookie("nt.authtoken", payload.token, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 60 * 24 // 1 dia
             });
+
+
 
             return res.status(204).send();
         };

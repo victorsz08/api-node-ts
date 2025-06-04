@@ -4,7 +4,7 @@ import { config } from "../../prisma/config";
 
 export function LoggerMiddleware() {
     return async (req: Request, res: Response, next: NextFunction) => {
-        const token = req.cookies["nt.authtoken"]?.token;
+        const token = req.cookies["nt.authtoken"];
 
         if(!token) {
             return res.status(401).json({ message: "token não localizado" });
