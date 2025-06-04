@@ -15,7 +15,7 @@ export class ApiExpress implements Api {
         this.app = express();
         
         this.app.use(cors({
-            origin: process.env.ORIGIN_ALLOWED,
+            origin: process.env.ORIGIN_ALLOWED!,
             methods: ["POST", "GET", "PUT", "DELETE"],
             credentials: true,
         }))
