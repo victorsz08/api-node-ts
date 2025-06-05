@@ -19,12 +19,12 @@ export class ApiExpress implements Api {
             methods: ["POST", "GET", "PUT", "DELETE"],
             credentials: true,
         }))
-
+        
+        this.app.use(cookieParser())
         this.app.use(express.json());
         this.app.use(helmet())
         
         this.app.use(HttpHandlerError);
-        this.app.use(cookieParser())
         this.addRoutes(routes);
     };
 
