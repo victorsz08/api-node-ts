@@ -26,8 +26,10 @@ export class AuthLoginRoute implements Route {
             res.cookie("nt.authtoken", payload.token, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 60 * 24, // 1 dia
-                sameSite: "none",            // ✅ necessário para cross-origin
-                secure: true  
+                sameSite: "none", 
+                secure: true,
+                path: "/",
+                
             });
 
 
