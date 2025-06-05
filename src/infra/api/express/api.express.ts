@@ -18,14 +18,17 @@ export class ApiExpress implements Api {
             origin: process.env.ORIGIN_ALLOWED!,
             methods: ["POST", "GET", "PUT", "DELETE"],
             credentials: true,
+            optionsSuccessStatus: 200,
+            exposedHeaders: ["set-cookie"],
+            allowedHeaders: ["Content-Type"],
         }))
         
         this.app.use(cookieParser())
         this.app.use(express.json());
         this.app.use(helmet())
         
-        this.app.use(HttpHandlerError);
         this.addRoutes(routes);
+        this.app.use(HttpHandlerError);
     };
 
     public static build(routes: Route[]) {

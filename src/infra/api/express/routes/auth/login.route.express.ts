@@ -29,7 +29,6 @@ export class AuthLoginRoute implements Route {
                 sameSite: "none", 
                 secure: true,
                 path: "/",
-                
             });
 
 
