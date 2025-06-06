@@ -31,14 +31,24 @@ export class CreateOrderRoute implements Route {
                 contact
             } =req.body;
 
-            await this.createOrderUsecase.execute({
+            const input = createOrderSchema.parse({
                 number,
                 local,
                 schedulingDate,
                 schedulingTime,
                 price,
                 contact,
-                userId
+
+            });
+
+            await this.createOrderUsecase.execute({
+                userId,
+                number:input.number,
+                local:input.local,
+                schedulingDate:input.schedulingDate,
+                schedulingTime:input.schedulingTime,
+                price:input.price,
+                contact:input.contact,
             });
 
             return res.status(201).send();

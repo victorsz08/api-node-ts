@@ -8,7 +8,7 @@ import { StatusEnum } from "../domain/enum/status.enum";
 export const createOrderSchema = z.object({
     number: z.coerce.number().min(1, { message: "o campo numero é obrigatório" }),
     local: z.string().min(1, { message: "o campo local é obrigatório" }),
-    schedulinDate: z.coerce.date().min(new Date(), { message: "o campo data de agendamento deve ser maior que a data atual" }),
+    schedulingDate: z.coerce.date().min(new Date(), { message: "o campo data de agendamento deve ser maior que a data atual" }),
     schedulingTime: z.string().min(1, { message: "o campo horário de agendamento é obrigatório" }),
     price: z.coerce.number().min(1, { message: "o campo valor deve ser maior que R$0,01" }),
     contact: z.string().min(1, { message: "o campo contato é obrigatório" })
