@@ -5,7 +5,7 @@ import {
   SalesPerDayInsight,
 } from "../../domain/interfaces/insight.interface";
 import { StatusEnum } from "../../domain/enum/status.enum";
-import { eachDayOfInterval, format } from "date-fns";
+import { eachDayOfInterval, format, subDays } from "date-fns";
 
 export class InsightRepository implements InsightInterface {
   private constructor(private readonly repository: PrismaClient) {}
@@ -118,7 +118,7 @@ export class InsightRepository implements InsightInterface {
       ])
     );
 
-    const daysInRange = eachDayOfInterval({ start: dateIn, end: dateOut });
+    const daysInRange = eachDayOfInterval({ start: subDays(dateIn, 1), end: subDays(dateOut, 1) });
     const result = daysInRange.map((day) => {
       const key = format(day, "yyyy-MM-dd");
       return {
