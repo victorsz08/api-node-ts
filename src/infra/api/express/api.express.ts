@@ -18,9 +18,7 @@ export class ApiExpress implements Api {
             origin: process.env.ORIGIN_ALLOWED!,
             methods: ["POST", "GET", "PUT", "DELETE"],
             credentials: true,
-            optionsSuccessStatus: 200,
-            exposedHeaders: ["set-cookie"],
-            allowedHeaders: ["Content-Type"],
+            optionsSuccessStatus: 200
         }))
         
         this.app.use(cookieParser())
