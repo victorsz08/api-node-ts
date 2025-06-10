@@ -6,6 +6,7 @@ import { authRoutes } from "./infra/modules/auth.module";
 import { noteRoutes } from "./infra/modules/note.module";
 import { insightRoutes } from "./infra/modules/insight.module";
 import { securityRoutes } from "./infra/modules/security.module";
+import { microservicesRoutes } from "./infra/modules/microservice.module";
 
 const PORT = parseInt(process.env.PORT || "8000") | 8000;
 
@@ -16,7 +17,8 @@ function main() {
         ...authRoutes,
         ...noteRoutes,
         ...insightRoutes,
-        ...securityRoutes
+        ...securityRoutes,
+        ...microservicesRoutes
     ]);
 
     api.start(PORT);
