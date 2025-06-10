@@ -84,7 +84,10 @@ export class OrderRepository implements OrderInterface {
                 user: { id: userId }
             },
             take: limit,
-            skip: (page - 1) * limit
+            skip: (page - 1) * limit,
+            orderBy: {
+                installationDate: "desc"
+            }
         };
 
         const countArgs: Prisma.ContractCountArgs = {
