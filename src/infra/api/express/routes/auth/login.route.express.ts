@@ -27,6 +27,8 @@ export class AuthLoginRoute implements Route {
                 httpOnly: true,
                 maxAge: 60 * 60 * 60 * 24, // 1 dia
                 path: "/",
+                SimeSite: "none",
+                secure: true
             });
 
 
