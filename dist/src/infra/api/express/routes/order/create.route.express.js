@@ -20,14 +20,22 @@ class CreateOrderRoute {
         return async (req, res) => {
             const { userId } = req.params;
             const { number, local, schedulingDate, schedulingTime, price, contact } = req.body;
-            await this.createOrderUsecase.execute({
+            const input = order_schemas_1.createOrderSchema.parse({
                 number,
                 local,
                 schedulingDate,
                 schedulingTime,
                 price,
                 contact,
-                userId
+            });
+            await this.createOrderUsecase.execute({
+                userId,
+                number: input.number,
+                local: input.local,
+                schedulingDate: input.schedulingDate,
+                schedulingTime: input.schedulingTime,
+                price: input.price,
+                contact: input.contact,
             });
             return res.status(201).send();
         };

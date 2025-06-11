@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 class FormartDatePattern {
     public toString(date: Date) {
-        return format(date, "dd/MM/yyyy")
+        return format(date, "yyyy-MM-dd")
     };
 
     public toDate(date: string) {

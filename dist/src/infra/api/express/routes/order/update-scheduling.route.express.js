@@ -20,7 +20,8 @@ class UpdateSchedulingOrderRoute {
         return async (req, res) => {
             const { id } = req.params;
             const { schedulingDate, schedulingTime } = req.body;
-            await this.updateSchedulingOrderUsecase.execute({ id, schedulingDate, schedulingTime });
+            const schema = order_schemas_1.updateSchedulingSchema.parse({ schedulingDate, schedulingTime });
+            await this.updateSchedulingOrderUsecase.execute({ id, ...schema });
             return res.status(204).send();
         };
     }

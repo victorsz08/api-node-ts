@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route, T } from "../route.express";
-import { UpdateSchedulingOrderUsecase } from "../../../../../usecases/order/update-scheduling.usecase";
+import { UpdateSchedulingOrderInputDto, UpdateSchedulingOrderUsecase } from "../../../../../usecases/order/update-scheduling.usecase";
 import { LoggerMiddleware } from "../../../../../middlewares/logger.middleware";
 import { ValidateData } from "../../../../../middlewares/validate-data.middleware";
 import { findOrderSchema, updateSchedulingSchema } from "../../../../../validators/order.schemas";
+import { UpdateNoteInputDto } from "../../../../../usecases/note/update.usecase";
 
 
 
@@ -24,7 +25,9 @@ export class UpdateSchedulingOrderRoute implements Route {
             const { id } = req.params;
             const { schedulingDate, schedulingTime } = req.body;
 
-            await this.updateSchedulingOrderUsecase.execute({ id, schedulingDate, schedulingTime });
+            const schema = updateSchedulingSchema.parse({ schedulingDate, schedulingTime });
+
+            await this.updateSchedulingOrderUsecase.execute({ id, ...schema});
             return res.status(204).send();
         };
     };

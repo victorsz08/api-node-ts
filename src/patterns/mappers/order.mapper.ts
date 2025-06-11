@@ -7,7 +7,7 @@ export type OrderDto = {
     id: string;
     number: number;
     local: string;
-    schedulingDate: string;
+    schedulingDate: Date;
     schedulingTime: string;
     status: string;
     price: number;
@@ -23,7 +23,7 @@ class OrderMapper implements Mapper<OrderEntity, OrderDto> {
             id: order.id,
             number: order.number,
             local: order.local,
-            schedulingDate: FormatDatePattern.toString(order.schedulingDate),
+            schedulingDate: order.schedulingDate,
             schedulingTime: order.schedulingTime,
             status: order.status,
             contact: order.contact,

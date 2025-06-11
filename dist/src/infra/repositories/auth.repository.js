@@ -31,6 +31,9 @@ class AuthRepository {
         ;
         const payload = (0, jsonwebtoken_1.sign)({
             id: user.id,
+            username: user.username,
+            firstName: user.name,
+            lastName: user.lastname,
             role: user.role
         }, config_1.config.secret, { expiresIn: "1d" });
         return payload;

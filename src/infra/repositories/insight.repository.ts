@@ -100,35 +100,32 @@ export class InsightRepository implements InsightInterface {
     dateIn: Date,
     dateOut: Date
   ): Promise<SalesPerDayInsight> {
-    const sales = await this.repository.contract.groupBy({
-      by: ["createdAt"],
+    const sales = await this.repository.contract.findMany({
       where: {
         user: { id: userId },
         createdAt: { gte: dateIn, lte: dateOut },
       },
-      _count: {
-        _all: true,
+      select: {
+        createdAt: true,
       },
     });
 
-    const salesMap = new Map<string, number>(
-      sales.map((sale) => [
-        format(new Date(sale.createdAt), "yyyy-MM-dd"),
-        sale._count._all,
-      ])
-    );
+    const salesMap = new Map<string, number>();
 
-    const daysInRange = eachDayOfInterval({ start: subDays(dateIn, 1), end: subDays(dateOut, 1) });
+    sales.forEach((sale) => {
+      const date = format(new Date(sale.createdAt), "yyyy-MM-dd");
+      salesMap.set(date, (salesMap.get(date) ?? 0) + 1);
+    });
+
+    const daysInRange = eachDayOfInterval({ start: dateIn, end: dateOut });
     const result = daysInRange.map((day) => {
       const key = format(day, "yyyy-MM-dd");
       return {
-        day: day,
+        day,
         quantity: salesMap.get(key) ?? 0,
       };
     });
 
-    return {
-      sales: result,
-    };
+    return { sales: result };
   }
 }

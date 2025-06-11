@@ -6,10 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateSchedulingSchema = exports.updateStatusSchema = exports.updateOrderSchema = exports.listOrderSchema = exports.findOrderSchema = exports.findUserIdSchema = exports.createOrderSchema = void 0;
 const zod_1 = require("zod");
 const format_date_pattern_1 = __importDefault(require("../patterns/libs/format-date.pattern"));
+const date_fns_1 = require("date-fns");
 exports.createOrderSchema = zod_1.z.object({
     number: zod_1.z.coerce.number().min(1, { message: "o campo numero é obrigatório" }),
     local: zod_1.z.string().min(1, { message: "o campo local é obrigatório" }),
-    schedulinDate: zod_1.z.coerce.date().min(new Date(), { message: "o campo data de agendamento deve ser maior que a data atual" }),
+    schedulingDate: zod_1.z.coerce.date().min(new Date(), { message: "o campo data de agendamento deve ser maior que a data atual" }),
     schedulingTime: zod_1.z.string().min(1, { message: "o campo horário de agendamento é obrigatório" }),
     price: zod_1.z.coerce.number().min(1, { message: "o campo valor deve ser maior que R$0,01" }),
     contact: zod_1.z.string().min(1, { message: "o campo contato é obrigatório" })
@@ -58,6 +59,6 @@ exports.updateStatusSchema = zod_1.z.object({
     status: zod_1.z.string().min(1, { message: "o campo status é obrigatório" })
 });
 exports.updateSchedulingSchema = zod_1.z.object({
-    schedulinDate: zod_1.z.coerce.date().min(new Date(), { message: "o campo data de agendamento deve ser maior que a data atual" }),
+    schedulingDate: zod_1.z.coerce.date().min((0, date_fns_1.subDays)(new Date(), 1), { message: "o campo data de agendamento deve ser maior que a data atual" }),
     schedulingTime: zod_1.z.string().min(1, { message: "o campo horário de agendamento é obrigatório" }),
 });

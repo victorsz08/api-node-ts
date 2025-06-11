@@ -59,7 +59,10 @@ class OrderRepository {
                 user: { id: userId }
             },
             take: limit,
-            skip: (page - 1) * limit
+            skip: (page - 1) * limit,
+            orderBy: {
+                installationDate: "desc"
+            }
         };
         const countArgs = {
             where: {

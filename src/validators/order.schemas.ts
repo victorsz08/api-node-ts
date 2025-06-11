@@ -1,6 +1,7 @@
 import { z } from "zod";
 import formatDatePattern from "../patterns/libs/format-date.pattern";
 import { StatusEnum } from "../domain/enum/status.enum";
+import { subDays } from "date-fns";
 
 
 
@@ -64,6 +65,7 @@ export const updateStatusSchema = z.object({
 });
 
 export const updateSchedulingSchema = z.object({
-    schedulinDate: z.coerce.date().min(new Date(), { message: "o campo data de agendamento deve ser maior que a data atual" }),
+    schedulingDate: z.coerce.date().min(
+        subDays(new Date(), 1), { message: "o campo data de agendamento deve ser maior que a data atual" }),
     schedulingTime: z.string().min(1, { message: "o campo horário de agendamento é obrigatório" }),
 });

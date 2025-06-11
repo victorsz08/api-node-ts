@@ -19,9 +19,10 @@ class AuthLoginRoute {
         return async (req, res) => {
             const { username, password } = req.body;
             const payload = await this.authLoginUsecase.execute({ username, password });
-            res.cookie("nt.authtoken", payload, {
+            res.cookie("nt.authtoken", payload.token, {
                 httpOnly: true,
-                maxAge: 60 * 60 * 60 * 24 // 1 dia
+                maxAge: 60 * 60 * 60 * 24, // 1 dia
+                path: "/",
             });
             return res.status(204).send();
         };

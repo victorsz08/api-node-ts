@@ -12,16 +12,17 @@ const helmet_1 = __importDefault(require("helmet"));
 class ApiExpress {
     constructor(routes) {
         this.app = (0, express_1.default)();
-        this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)({
-            origin: "*",
-            methods: ["POST, GET, PUT, DELETE"],
+            origin: process.env.ORIGIN_ALLOWED,
+            methods: ["POST", "GET", "PUT", "DELETE", "PATCH", "OPTIONS"],
             credentials: true,
+            optionsSuccessStatus: 200
         }));
-        this.app.use((0, helmet_1.default)());
-        this.app.use(http_handler_error_middleware_1.HttpHandlerError);
         this.app.use((0, cookie_parser_1.default)());
+        this.app.use(express_1.default.json());
+        this.app.use((0, helmet_1.default)());
         this.addRoutes(routes);
+        this.app.use(http_handler_error_middleware_1.HttpHandlerError);
     }
     ;
     static build(routes) {

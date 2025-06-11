@@ -22,6 +22,6 @@ function main() {
     ]);
 
     api.start(PORT);
-};
+}
 
 main();
