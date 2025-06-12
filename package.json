@@ -41,6 +41,7 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.6.0",
     "prisma": "^6.7.0",
     "uuid": "^11.1.0",
     "zod": "^3.25.20"

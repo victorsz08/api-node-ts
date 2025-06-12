@@ -2,6 +2,7 @@ import { z } from "zod";
 import formatDatePattern from "../patterns/libs/format-date.pattern";
 import { StatusEnum } from "../domain/enum/status.enum";
 import { subDays } from "date-fns";
+import generateDatePattern from "../patterns/utils/generate-date.pattern";
 
 
 
@@ -31,26 +32,10 @@ export const listOrderSchema = z.object({
     status: z.string().optional().transform((value) => {
         return value as StatusEnum
     }),
-    createdDateIn: z.coerce.date().optional().transform((value) => {
-        if(value) {
-            return formatDatePattern.startOfDate(value)
-        }
-    }),
-    createdDateOut: z.coerce.date().optional().transform((value) => {
-        if(value) {
-            return formatDatePattern.endOfDate(value)
-        }
-    }),
-    schedulingDateIn: z.coerce.date().optional().transform((value) => {
-        if(value) {
-            return formatDatePattern.startOfDate(value)
-        }
-    }),
-    schedulingDateOut: z.coerce.date().optional().transform((value) => {
-        if(value) {
-            return formatDatePattern.endOfDate(value)
-        }
-    })
+    createdDateIn: z.coerce.date().optional(),
+    createdDateOut: z.coerce.date().optional(),
+    schedulingDateIn: z.coerce.date().optional(),
+    schedulingDateOut: z.coerce.date().optional()
 });
 
 export const updateOrderSchema = z.object({
@@ -66,6 +51,9 @@ export const updateStatusSchema = z.object({
 
 export const updateSchedulingSchema = z.object({
     schedulingDate: z.coerce.date().min(
-        subDays(new Date(), 1), { message: "o campo data de agendamento deve ser maior que a data atual" }),
+        subDays(new Date(), 1), { message: "o campo data de agendamento deve ser maior que a data atual" })
+        .transform((value) => {
+            return generateDatePattern.parseDate(value);
+        }),
     schedulingTime: z.string().min(1, { message: "o campo horário de agendamento é obrigatório" }),
 });

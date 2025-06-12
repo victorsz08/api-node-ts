@@ -27,7 +27,6 @@ export class ListOrderRoute implements Route {
             const query = req.query as T;
             
             const input = listOrderSchema.parse(query);
-
             const response = await this.listOrderUsecase.execute(input);
             return res.status(200).json(response);
         };

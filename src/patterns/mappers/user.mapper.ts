@@ -1,7 +1,7 @@
 import { Mapper } from "./mapper.core";
 import { UserEntity, UserType } from "../../domain/entities/user.entity";
 import { RoleEnum } from "../../domain/enum/role.enum";
-import FormartDatePattern from "../utils/transform-date";
+import FormartDatePattern from "../utils/generate-date.pattern";
 import { User } from "@prisma/client";
 
 export type UserDto = {
