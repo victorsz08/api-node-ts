@@ -7,7 +7,7 @@
     "dev": "nodemon ./src/server.ts",
     "build": "tsc",
     "postinstall": "npx prisma generate",
-    "start": "node ./dist/src/server.js",
+    "start": "nodemon ./dist/src/server.js",
     "test": "jest --passWithNoTests"
   },
   "keywords": [],

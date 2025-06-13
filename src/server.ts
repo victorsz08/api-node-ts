@@ -10,6 +10,7 @@ import { microservicesRoutes } from "./infra/modules/microservice.module";
 
 const PORT = parseInt(process.env.PORT || "8000") | 8000;
 
+
 function main() {
     const api = ApiExpress.build([
         ...userRoutes,
@@ -20,6 +21,9 @@ function main() {
         ...securityRoutes,
         ...microservicesRoutes
     ]);
+
+    
+    console.log("Origin: " + process.env.ORIGIN_ALLOWED);
 
     api.start(PORT);
 }
