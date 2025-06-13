@@ -6,6 +6,7 @@ import {
 } from "../../domain/interfaces/insight.interface";
 import { StatusEnum } from "../../domain/enum/status.enum";
 import { eachDayOfInterval, format, subDays } from "date-fns";
+import moment from "moment-timezone";
 
 export class InsightRepository implements InsightInterface {
   private constructor(private readonly repository: PrismaClient) {}
@@ -113,7 +114,9 @@ export class InsightRepository implements InsightInterface {
     const salesMap = new Map<string, number>();
 
     sales.forEach((sale) => {
-      const date = format(new Date(sale.createdAt), "yyyy-MM-dd");
+      const date = moment(sale.createdAt).tz("America/Sao_Paulo").format(
+        "YYYY-MM-DD"
+      );
       salesMap.set(date, (salesMap.get(date) ?? 0) + 1);
     });
 

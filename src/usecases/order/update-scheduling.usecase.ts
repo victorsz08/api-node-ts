@@ -1,5 +1,7 @@
 import { OrderInterface } from './../../domain/interfaces/order.interface';
 import { Usecase } from "../usecase.core";
+import GenerateDatePattern from "../../patterns/utils/generate-date.pattern";
+import moment from 'moment-timezone';
 
 
 
@@ -21,10 +23,11 @@ export class UpdateSchedulingOrderUsecase implements Usecase<UpdateSchedulingOrd
 
     public async execute(input: UpdateSchedulingOrderInputDto): Promise<void> {
         const { id, schedulingDate, schedulingTime } = input;
-        const updatedAt = new Date();
+        const updatedAt = GenerateDatePattern.generateDate();
+        const schedulingDateFormatted = GenerateDatePattern.parseDate(schedulingDate);
 
         await this.orderInterface.find(id);
-        await this.orderInterface.updateScheduling(id, schedulingDate, schedulingTime, updatedAt);
+        await this.orderInterface.updateScheduling(id, schedulingDateFormatted, schedulingTime, updatedAt);
 
         return;
     };

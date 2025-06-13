@@ -1,6 +1,7 @@
 import { OrderInterface } from './../../domain/interfaces/order.interface';
 import { StatusEnum } from "../../domain/enum/status.enum";
 import { Usecase } from "../usecase.core";
+import generateDatePattern from '../../patterns/utils/generate-date.pattern';
 
 
 
@@ -20,7 +21,7 @@ export class UpdateStatusOrderUsecase implements Usecase<UpdateStatusOrderInputD
     
     public async execute(input: UpdateStatusOrderInputDto): Promise<void> {
         const { id, status } = input;
-        const updatedAt = new Date();
+        const updatedAt = generateDatePattern.generateDate();
 
         await this.orderInterface.find(id);
         await this.orderInterface.updateStatus(id, status, updatedAt);

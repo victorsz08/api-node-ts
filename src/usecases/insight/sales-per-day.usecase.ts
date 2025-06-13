@@ -1,5 +1,5 @@
 import { InsightInterface, SalesPerDayInsight } from "../../domain/interfaces/insight.interface";
-import formatDatePattern from "../../patterns/utils/transform-date";
+import generateDatePattern from "../../patterns/utils/generate-date.pattern";
 import { Usecase } from "../usecase.core";
 
 
@@ -38,7 +38,7 @@ export class GetSalesPerDayUsecase implements Usecase<GetSalesPerDayInputDto, Ge
     private present(sales: SalesPerDayInsight): GetSalesPerDayOutputDto {
         return {
             sales: sales.sales.map((sale) => ({
-                day: formatDatePattern.toString(sale.day),
+                day: generateDatePattern.toString(sale.day),
                 quantity: sale.quantity
             }))
         };

@@ -1,13 +1,13 @@
 import { OrderEntity } from "../../domain/entities/order.entity";
 import { Mapper } from "./mapper.core";
-import FormatDatePattern from "../utils/transform-date";
 import { Contract } from "@prisma/client";
+import generateDatePattern from "../utils/generate-date.pattern";
 
 export type OrderDto = {
     id: string;
     number: number;
     local: string;
-    schedulingDate: Date;
+    schedulingDate: string;
     schedulingTime: string;
     status: string;
     price: number;
@@ -23,13 +23,13 @@ class OrderMapper implements Mapper<OrderEntity, OrderDto> {
             id: order.id,
             number: order.number,
             local: order.local,
-            schedulingDate: order.schedulingDate,
+            schedulingDate: generateDatePattern.toString(order.schedulingDate),
             schedulingTime: order.schedulingTime,
             status: order.status,
             contact: order.contact,
             price: order.price,
-            createdAt: FormatDatePattern.toString(order.createdAt),
-            updatedAt: FormatDatePattern.toString(order.updatedAt)
+            createdAt: generateDatePattern.toString(order.createdAt),
+            updatedAt: generateDatePattern.toString(order.updatedAt)
         };
     };
 

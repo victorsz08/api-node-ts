@@ -1,5 +1,7 @@
+import moment from "moment-timezone";
 import generateIdPattern from "../../patterns/libs/generate-id.pattern";
 import { StatusEnum } from "../enum/status.enum";
+import generateDatePattern from "../../patterns/utils/generate-date.pattern";
 
 
 
@@ -33,14 +35,14 @@ export class OrderEntity {
             id: generateIdPattern.generate(),
             number,
             local,
-            schedulingDate,
+            schedulingDate: generateDatePattern.parseDate(schedulingDate),
             schedulingTime,
             price,
             status: StatusEnum.PENDING,
             contact,
             userId,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: generateDatePattern.generateDate(),
+            updatedAt: generateDatePattern.generateDate(),
         });
     };
 

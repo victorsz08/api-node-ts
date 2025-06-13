@@ -1,5 +1,6 @@
 import { OrderInterface } from './../../domain/interfaces/order.interface';
 import { Usecase } from "../usecase.core";
+import generateDatePattern from '../../patterns/utils/generate-date.pattern';
 
 
 export type UpdateOrderInputDto = {
@@ -29,7 +30,7 @@ export class UpdateOrderUsecase implements Usecase<UpdateOrderInputDto, UpdateOr
             price,
             contact
         } = input;
-        const updatedAt = new Date();
+        const updatedAt = generateDatePattern.generateDate();
 
         await this.orderInterface.find(id);
         await this.orderInterface.update(id, number, local, price, contact, updatedAt);

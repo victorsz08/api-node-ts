@@ -1,7 +1,7 @@
 import { Notes } from "@prisma/client";
 import { NoteEntity } from "../../domain/entities/note.entity";
 import { Mapper } from "./mapper.core";
-import formatDatePattern from "../utils/transform-date";
+import formatDatePattern from "../utils/generate-date.pattern";
 
 
 export type NoteDto = {
